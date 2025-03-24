@@ -1,0 +1,6 @@
+2025-03-16 15:25 [TEST] This is a test message.
+2025-03-16 15:25 [INFO] Logger is working correctly.
+2025-03-16 15:25 [ERROR] Something went wrong!
+2025-03-20 18:29 [START] Logging started.
+2025-03-20 18:29 [EVENT] User logged in.
+2025-03-20 18:29 [ERROR] Something went wrong!
