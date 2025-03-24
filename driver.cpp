@@ -47,4 +47,20 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
     close(log_pipe[0]);
+
+    // Encryptor
+    pid_t enc_pid = fork();
+    if (enc_pid == 0) {
+        dup2(enc_pipe_in[0], STDIN_FILENO); // redirect standard input to read from pipe
+        dup2(enc_pipe_out[1], STDOUT_FILENO); // redirect standard output to write to pipe
+        close(enc_pipe_in[1]);
+        close(enc_pipe_out[0]);
+        execl("./encryptor", "encryptor", NULL);  // execute encryptor
+        cerr << "Error: Failed to launch encryptor!" << endl;
+        exit(1);
+    }
+    
+    // close any unused programs
+    close(enc_pipe_in[0]);
+    close(enc_pipe_out[1]);
 }
