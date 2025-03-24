@@ -36,4 +36,15 @@ int main(int argc, char* argv[]) {
     pipe(log_pipe);
     pipe(enc_pipe_in);
     pipe(enc_pipe_out);
+
+    // Logger
+    pid_t logger_pid = fork();
+    if (logger_pid == 0) {
+        dup2(log_pipe[0], STDIN_FILENO); // redirect standard input to read from pipe
+        close(log_pipe[1]);
+        execl("./logger", "logger", logfile.c_str(), NULL); // execute logger
+        cerr << "Error: Failed to launch logger!" << endl;
+        exit(1);
+    }
+    close(log_pipe[0]);
 }
