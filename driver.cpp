@@ -36,7 +36,7 @@ int main(int argc, char* argv[]) {
     pipe(log_pipe);
     pipe(enc_pipe_in);
     pipe(enc_pipe_out);
-
+    
     // Logger
     pid_t logger_pid = fork();
     if (logger_pid == 0) {
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
     close(log_pipe[0]);
-
+    
     // Encryptor
     pid_t enc_pid = fork();
     if (enc_pid == 0) {
@@ -63,7 +63,7 @@ int main(int argc, char* argv[]) {
     // close any unused programs
     close(enc_pipe_in[0]);
     close(enc_pipe_out[1]);
-
+    
     write_to_pipe(log_pipe[1], "START Driver Started.");
 
     vector<string> history;
@@ -92,7 +92,6 @@ int main(int argc, char* argv[]) {
             write_to_pipe(log_pipe[1], "PASSKEY Passkey set.");
             cout << "[DEBUG] Passkey set to: " << input << endl;  // Debugging message
         } 
-        
         else if (command == "encrypt") {
             cout << "Enter text: " << flush;
             if (!getline(cin, input)) break;
@@ -109,7 +108,6 @@ int main(int argc, char* argv[]) {
                 cout << "[DEBUG] Logged encryption result: " << response << endl;
             }
         } 
-        
         else if (command ==      "decrypt") {
             cout << "Enter encrypted text: " << flush;
             if (!getline(cin, input)) break;
@@ -126,5 +124,22 @@ int main(int argc, char* argv[]) {
                 cout << "[DEBUG] Logged decryption result: " << response << endl;
             }
         } 
+        else if (command == "history") {
+            for (size_t i = 0; i < history.size(); i++) {
+                cout << i + 1 << ". " << history[i] << endl;
+            }
+        } 
+        else if (command == "quit") {
+            write_to_pipe(enc_pipe_in[1], "QUIT");
+            write_to_pipe(log_pipe[1], "QUIT");
+            break;
+        } 
+        else {
+            cout << "Invalid command! Try again." << endl;
+        }
+    }
 
+    waitpid(logger_pid, NULL, 0);
+    waitpid(enc_pid, NULL, 0);
+    return 0;
 }
