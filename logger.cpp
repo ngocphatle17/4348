@@ -30,3 +30,12 @@ int main(int argc, char* argv[]) {
         cerr << "Error opening log file!" << endl;
         return 1;
     }
+
+    string line;
+    while (getline(cin, line)) { // read input ilnes from the standard input
+        if (line == "QUIT") break;
+        
+        // extract action and messages
+        size_t space_pos = line.find(' ');
+        string action = (space_pos != string::npos) ? line.substr(0, space_pos) : line;
+        string message = (space_pos != string::npos) ? line.substr(space_pos + 1) : "";
