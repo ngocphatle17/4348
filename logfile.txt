@@ -1,0 +1,21 @@
+2025-03-16 14:51 [START] Driver Started.
+2025-03-16 15:00 [START] Driver Started.
+2025-03-16 15:12 [START] Driver Started.
+2025-03-16 15:12 [ENCRYPT] HELLO
+2025-03-16 15:13 [PASSKEY] Passkey set.
+2025-03-16 15:13 [ENCRYPT] WORLD
+2025-03-16 15:19 [password] 
+2025-03-16 15:23 [g++] -o logger logger.cpp
+2025-03-16 15:23 [g++] -o encryptor encryptor.cpp
+2025-03-16 15:23 [g++] -o driver driver.cpp
+2025-03-16 15:23 [START] Driver Started.
+2025-03-16 15:23 [PASSKEY] Passkey set.
+2025-03-16 15:23 [ENCRYPT] WORLD
+2025-03-16 15:23 [RESULT] 
+2025-03-16 15:23 [] 
+2025-03-16 15:26 [START] Driver Started.
+2025-03-16 15:26 [PASSKEY] Passkey set.
+2025-03-16 15:26 [ENCRYPT] HELLO
+2025-03-16 15:26 [RESULT] 
+2025-03-16 15:26 [] 
+2025-03-20 17:36 [START] Driver Started.
