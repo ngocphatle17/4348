@@ -110,4 +110,21 @@ int main(int argc, char* argv[]) {
             }
         } 
         
+        else if (command ==      "decrypt") {
+            cout << "Enter encrypted text: " << flush;
+            if (!getline(cin, input)) break;
+
+            write_to_pipe(enc_pipe_in[1], "DECRYPT " + input);
+            string response = read_from_pipe(enc_pipe_out[0]);
+
+            cout << response << endl;
+            history.push_back(input);
+            write_to_pipe(log_pipe[1], "DECRYPT " + input);
+
+            if (response.find("RESULT") != string::npos) {
+                write_to_pipe(log_pipe[1], response);  // Log decryption result
+                cout << "[DEBUG] Logged decryption result: " << response << endl;
+            }
+        } 
+
 }
