@@ -63,4 +63,51 @@ int main(int argc, char* argv[]) {
     // close any unused programs
     close(enc_pipe_in[0]);
     close(enc_pipe_out[1]);
+
+    write_to_pipe(log_pipe[1], "START Driver Started.");
+
+    vector<string> history;
+    string command, input;
+
+    while (true) {
+        cout << "Enter command (password/encrypt/decrypt/history/quit): " << flush;  // ensures prompt appears
+        
+        // handle input failure
+        if (!getline(cin, command)) {  // prevents infinite loop if input fails
+            cerr << "[ERROR] Failed to read input. Exiting." << endl;
+            break;
+        }
+
+        if (command.empty()) continue;  // ignore empty input
+
+        if (command == "password") {
+            cout << "Enter passkey: " << flush;  // ensures prompt appears immediately
+            
+            if (!getline(cin, input)) {
+                cerr << "[ERROR] Failed to read passkey input." << endl;
+                break;
+            }
+
+            write_to_pipe(enc_pipe_in[1], "PASS " + input);
+            write_to_pipe(log_pipe[1], "PASSKEY Passkey set.");
+            cout << "[DEBUG] Passkey set to: " << input << endl;  // Debugging message
+        } 
+        
+        else if (command == "encrypt") {
+            cout << "Enter text: " << flush;
+            if (!getline(cin, input)) break;
+
+            write_to_pipe(enc_pipe_in[1], "ENCRYPT " + input);
+            string response = read_from_pipe(enc_pipe_out[0]);
+
+            cout << response << endl;
+            history.push_back(input);
+            write_to_pipe(log_pipe[1], "ENCRYPT " + input);
+
+            if (response.find("RESULT") != string::npos) {
+                write_to_pipe(log_pipe[1], response);  // Log encryption result
+                cout << "[DEBUG] Logged encryption result: " << response << endl;
+            }
+        } 
+        
 }
