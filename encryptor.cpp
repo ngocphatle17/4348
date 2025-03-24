@@ -24,8 +24,30 @@ string vigenere_cipher(string text, string key, bool encrypt) {
 int main() {
     string command, argument;
     
-    while (getline(cin, command, ' ')) {
-        getline(cin, argument);
+    while (getline(cin, command, ' ')) {  // Fix: Read the first word as the command
+        getline(cin, argument);  // Fix: Read the rest as the argument
+
+        if (command == "PASS") {
+            passkey = argument;  // Store passkey
+            cout << "RESULT" << endl;
+        } 
+        else if (command == "ENCRYPT") {
+            if (passkey.empty()) {
+                cout << "ERROR Password not set" << endl;
+            } else {
+                cout << "RESULT " << vigenere_cipher(argument, passkey, true) << endl;
+            }
+        } 
+        else if (command == "DECRYPT") {
+            if (passkey.empty()) {
+                cout << "ERROR Password not set" << endl;
+            } else {
+                cout << "RESULT " << vigenere_cipher(argument, passkey, false) << endl;
+            }
+        } 
+        else if (command == "QUIT") {
+            break;
+        }
     }
 
     return 0;
