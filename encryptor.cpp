@@ -20,3 +20,13 @@ string vigenere_cipher(string text, string key, bool encrypt) {
     }
     return result;
 }
+
+int main() {
+    string command, argument;
+    
+    while (getline(cin, command, ' ')) {
+        getline(cin, argument);
+    }
+
+    return 0;
+}
